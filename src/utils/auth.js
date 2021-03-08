@@ -23,46 +23,39 @@
 *                 神兽保佑
 *                 代码无BUG!
 */
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-// 引入vant组件
-// js
-import Vant, { Lazyload } from 'vant'
+/**
+ * 存储登录成功后，从后台获取的token=》存储2个
+ * 注意：存储的数据结构=> {token:'dfdf', refresh_token:'dfdfdf'}
+ * 步骤：
+ * 1. 定义存储的key
+ * 2. 定义存储的方法 => 存储、获取和删除方法
+ */
 
-// 根据屏幕大小动态设置根html字体大小
-import 'amfe-flexible'
-// css
-// import 'vant/lib/index.css'
-// less
-import 'vant/lib/index.less'
-// 引入自己写的全局样式
-import '@/styles/index.less'
+const TT_TOKEN = 'TT_TOKEN'
 
-// 导入自己的插件
-import { MyPlugin } from '@/utils/request'
+/**
+ *
+ * @param {*} token 存储的数据结构=> {token:'dfdf', refresh_token:'dfdfdf'}=> 需要序列化
+ */
+export function setToken (token) {
+  localStorage.setItem(TT_TOKEN, JSON.stringify(token))
+}
 
-// 导入自己的插件2
-import Plugins from '@/utils'
+/**
+ * 获取存在本地的token
+ */
+export function getToken () {
+  try {
+    return JSON.parse(localStorage.getItem(TT_TOKEN))
+  } catch (error) {
+    console.warn(error)
+    return localStorage.getItem(TT_TOKEN)
+  }
+}
 
-// console.log(123)
-// console.warn(456)
-
-// 注册图片懒加载插件
-Vue.use(Lazyload)
-
-// 注册自己的插件
-Vue.use(MyPlugin)
-Vue.use(Plugins)
-
-// 注册组件库
-Vue.use(Vant)
-
-Vue.config.productionTip = false
-
-new Vue({
-  router,
-  store, // 所有组件可以通过this.$store
-  render: h => h(App)
-}).$mount('#app')
+/**
+ * 删除本地存储token
+ */
+export function delToken () {
+  localStorage.removeItem(TT_TOKEN)
+}

@@ -1,4 +1,4 @@
-# hm-toutiao-m
+# heima-mobile-122
 
 ## Project setup
 ```
