@@ -50,9 +50,9 @@ const router = new VueRouter({
  * 需求：访问某些页面，拦截判断是否登录
  */
 /**
- * to=> 去哪了
- * from =》从哪里来
- * next => 走不走
+ * to: 去哪了
+ * from:从哪里来
+ * next: 走不走
  */
 router.beforeEach((to, from, next) => {
   /**
