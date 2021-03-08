@@ -63,7 +63,7 @@
       </van-list>
     </van-pull-refresh>
     <!-- 更多操作弹出层 -->
-    <MoreAction v-model="isShowMore" />
+    <MoreAction v-model="isShowMore" :articleId = "articleId"/>
     <!-- <MoreAction
       :value="isShowMore"
       @input="isShowMore=$event"

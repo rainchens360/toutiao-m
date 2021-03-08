@@ -37,3 +37,14 @@ export function getArticlesById (channelId, timestamp, with_top = 1) {
     }
   })
 }
+
+// 根据文章ID添加不感兴趣
+/**
+ *
+ * @param {*} target 文章ID
+ */
+export function disLikeById (target) {
+  return request.post('article/dislikes', {
+    target
+  })
+}
