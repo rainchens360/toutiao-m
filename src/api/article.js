@@ -48,3 +48,15 @@ export function disLikeById (target) {
     target
   })
 }
+
+// 根据文章ID举报
+/**
+ *
+ * @param {*} target 文章ID
+ * @param {*} type 举报类型
+ */
+export function reportById (target, type) {
+  return request.post('article/reports', {
+    target, type
+  })
+}

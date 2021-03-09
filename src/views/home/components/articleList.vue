@@ -63,7 +63,7 @@
       </van-list>
     </van-pull-refresh>
     <!-- 更多操作弹出层 -->
-    <MoreAction v-model="isShowMore" :articleId = "articleId"/>
+    <MoreAction v-model="isShowMore" :articleId = "articleId" @on-dislike="delArtcile" @on-report="delArtcile"/>
     <!-- <MoreAction
       :value="isShowMore"
       @input="isShowMore=$event"
@@ -107,6 +107,14 @@ export default {
     }
   },
   methods: {
+    // 对文章不感兴趣自定义事件,从列表删除对应的文章
+    delArtcile () {
+      console.log('来自子组件的通知,从列表删除对应的文章')
+      // 1获取当前被删除文章的索引值
+      // 2使用splice删除当前文章
+      const i = this.list.findIndex((item) => item.art_id.toString() === this.articleId)
+      this.list.splice(i, 1)
+    },
     // 打开更多操作弹出
     /**
      * id 当前点击的文章ID

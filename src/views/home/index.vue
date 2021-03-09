@@ -22,9 +22,11 @@
       </van-tab>
     </van-tabs>
     <!-- 右侧图标 -->
-    <span class="bar_btn">
+    <span class="bar_btn" @click="isShowChannel=true">
       <van-icon name="wap-nav"></van-icon>
     </span>
+    <!-- 频道管理 -->
+    <ChannelEdit v-model="isShowChannel" />
   </div>
 </template>
 
@@ -32,18 +34,32 @@
 import { getMyChannels } from '../../api/channel'
 // 导入文章列表组件
 import ArticleList from './components/articleList'
+// 导入频道管理组件
+import ChannelEdit from './components/channel-edit'
 export default {
   name: 'home-index',
   components: {
-    ArticleList
+    ArticleList, ChannelEdit
   },
   data () {
     return {
       // 频道数据
       channels: [],
       // 当前被打开频道的索引
-      activeIndex: 0
+      activeIndex: 0,
+      // 控制频道管理弹出是否显示
+      isShowChannel: false
 
+    }
+  },
+  // wacth和computed的使用场景
+  // 1.computed中定义新数据依赖data中的数据:派生数据
+  // 2.wacth监控this上数据变化:去做一些事
+  // 处理refresh_token失效，回跳缓存不刷新问题
+  watch: {
+    '$store.state.user.token' () {
+      console.log('refresh')
+      this.getChannelList()
     }
   },
   // 组件被缓存后多了两个钩子
