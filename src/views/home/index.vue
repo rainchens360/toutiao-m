@@ -26,7 +26,7 @@
       <van-icon name="wap-nav"></van-icon>
     </span>
     <!-- 频道管理 -->
-    <ChannelEdit v-model="isShowChannel" />
+    <ChannelEdit v-model="isShowChannel" :myChannels="channels" :activeIndex="activeIndex" />
   </div>
 </template>
 

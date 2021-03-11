@@ -30,3 +30,8 @@ import request from '../utils/request'
 export const getMyChannels = () => {
   return request.get('user/channels')
 }
+
+// 获取系统中所有的频道
+export function getAllChannels () {
+  return request.get('channels')
+}

@@ -15,9 +15,10 @@
       </div>
       <van-grid class="van-hairline--left">
         <!-- 我的频道 -->
-        <van-grid-item v-for="index in 8" :key="index">
-          <span class="f12">频道{{index}}</span>
-          <van-icon v-show="editing" class="btn" name="cross"></van-icon>
+        <van-grid-item v-for="(item,i) in myChannels" :key="item.id">
+          <!-- 显示删除的叉号：推荐不能删除 -->
+          <span class="f12" :class="{red: activeIndex === i}" >{{item.name}}</span>
+          <van-icon v-show="editing && i!==0" class="btn" name="cross"></van-icon>
         </van-grid-item>
       </van-grid>
     </div>
@@ -34,18 +35,55 @@
   </van-action-sheet>
 </template>
 <script>
+// 获取所有频道数据
+import { getAllChannels } from '@/api/channel'
 export default {
   props: {
     // 打开/关闭的状态
     value: {
       type: Boolean,
       default: false
+    },
+    myChannels: {
+      type: Array,
+      // 默认值如果是对象、数组等复杂数据类型时,需要包一个函数，通过函数返回这个默认值;简单类型不需要
+      default: () => []
+    },
+    // 当前选中的频道索引
+    activeIndex: {
+      type: Number,
+      default: 0
     }
   },
   data () {
     return {
       // 编辑状态
-      editing: false
+      editing: false,
+      // 所有频道数据
+      allChannels: []
+    }
+  },
+  computed: {
+    // 可选频道数据：我的频道选剩下的数据
+    // 可选频道数据 = 所有频道数据 - 我的频道数据
+    // 根据条件排除一些数据：数据的filter方法
+    optChannels () {
+      // 保留所有频道的部分数据
+      return this.allChannels.filter((all) => {
+        // 根据条件排除：all在我的频道有：不要当前all这个数据:相反保留all
+        return this.myChannels.some((my) => my.id === all.id)
+      })
+    }
+  },
+  created () {
+    this.getAll()
+  },
+  methods: {
+    // 获取所有频道数据
+    async getAll () {
+      const { data: { channels } } = await getAllChannels()
+      // console.log(data)
+      this.allChannels = channels
     }
   }
 }
